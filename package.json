@@ -10,6 +10,10 @@
         "production": "mix --production",
         "postinstall": "npm run prod"
     },
+    "engines": {
+        "npm": "7.x",
+        "node": "14.x"
+    },
     "devDependencies": {
         "@mdi/font": "^5.9.55",
         "axios": "^0.21",
