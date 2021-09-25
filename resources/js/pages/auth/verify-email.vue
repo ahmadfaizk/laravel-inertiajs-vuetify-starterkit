@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <guest-layout>
     <v-main>
       <v-container fluid>
         <v-row align="center" justify="center" style="height: 100vh">
@@ -27,14 +27,15 @@
         </v-row>
       </v-container>
     </v-main>
-  </v-app>
+  </guest-layout>
 </template>
 
 <script>
 import ApplicationLogo from "../../components/ApplicationLogo.vue";
+import GuestLayout from '../../layouts/GuestLayout.vue';
 
 export default {
-  components: { ApplicationLogo },
+  components: { ApplicationLogo, GuestLayout },
   data() {
     return {
       showPassword: false,

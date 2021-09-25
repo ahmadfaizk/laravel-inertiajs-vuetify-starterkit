@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <guest-layout>
     <v-app-bar color="primary" :clipped-left="false" fixed dark app>
       <v-toolbar-title v-text="appName" />
       <v-spacer />
@@ -22,13 +22,14 @@
         </v-card>
       </v-container>
     </v-main>
-  </v-app>
+  </guest-layout>
 </template>
 
 <script>
 import ApplicationLogo from '../components/ApplicationLogo.vue'
+import GuestLayout from '../layouts/GuestLayout.vue'
 export default {
-  components: { ApplicationLogo },
+  components: { ApplicationLogo, GuestLayout },
   computed: {
     appName() {
       return this.$page.props.appName

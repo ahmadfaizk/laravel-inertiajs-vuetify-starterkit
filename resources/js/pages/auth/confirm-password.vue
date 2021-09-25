@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <guest-layout>
     <v-main>
       <v-container fluid>
         <v-row align="center" justify="center" style="height: 100vh">
@@ -26,7 +26,7 @@
                     :type="showPassword ? 'text' : 'password'"
                     @click:append="showPassword = !showPassword"
                   />
-                  <v-btn type="submit" block color="primary" class="mt-3"
+                  <v-btn :loading="form.processing" type="submit" block color="primary" class="mt-3"
                     >Change Password</v-btn
                   >
                 </v-form>
@@ -36,13 +36,14 @@
         </v-row>
       </v-container>
     </v-main>
-  </v-app>
+  </guest-layout>
 </template>
 
 <script>
 import ApplicationLogo from "../../components/ApplicationLogo.vue";
+import GuestLayout from '../../layouts/GuestLayout.vue';
 export default {
-  components: { ApplicationLogo },
+  components: { ApplicationLogo, GuestLayout },
   data() {
     return {
       showPassword: false,
