@@ -22,12 +22,12 @@
                     v-model="form.email"
                     prepend-inner-icon="mdi-email"
                     label="Email"
-                    type="text"
+                    type="email"
                     outlined
                     dense
                     :error-messages="form.errors.email"
                   />
-                  <v-btn type="submit" block color="primary" class="mt-3"
+                  <v-btn :loading="form.processing" type="submit" block color="primary" class="mt-3"
                     >Request New Password</v-btn
                   >
                 </v-form>

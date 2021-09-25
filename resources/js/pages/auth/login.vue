@@ -1,6 +1,5 @@
 <template>
-  <v-app>
-    <head title="Login" />
+  <guest-layout>
     <v-main>
       <v-container fluid>
         <v-row align="center" justify="center" style="height: 100vh">
@@ -25,7 +24,7 @@
                     v-model="form.email"
                     prepend-inner-icon="mdi-email"
                     label="Email"
-                    type="text"
+                    type="email"
                     outlined
                     dense
                     :error-messages="form.errors.email"
@@ -48,9 +47,11 @@
                       v-model="form.remember_me"
                       label="Remember me"
                     />
-                    <Link :href="route('password.request')"> Forgot Password? </Link>
+                    <Link :href="route('password.request')">
+                      Forgot Password?
+                    </Link>
                   </div>
-                  <v-btn type="submit" block color="primary" class="mt-3"
+                  <v-btn :loading="form.processing" type="submit" block color="primary" class="mt-3"
                     >Login</v-btn
                   >
                 </v-form>
@@ -66,15 +67,15 @@
         </v-row>
       </v-container>
     </v-main>
-  </v-app>
+  </guest-layout>
 </template>
 
 <script>
 import ApplicationLogo from "../../components/ApplicationLogo.vue";
-import { Head } from '@inertiajs/inertia-vue'
+import GuestLayout from "../../layouts/GuestLayout.vue"
 
 export default {
-  components: { ApplicationLogo, Head },
+  components: { ApplicationLogo, GuestLayout },
   data() {
     return {
       showPassword: false,
