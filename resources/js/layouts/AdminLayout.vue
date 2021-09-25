@@ -1,6 +1,37 @@
 <template>
   <v-app style="background-color: #f5f5f5">
-    <navigation-drawer :drawer="drawer" :miniVariant="miniVariant" :items="items" />
+    <v-navigation-drawer
+      :mini-variant.sync="miniVariant"
+      clipped
+      v-model="drawer"
+      fixed
+      app
+    >
+      <v-list nav>
+        <v-list-item-group :value="indexMenu">
+          <v-list-item
+            v-for="(item, i) in items"
+            :key="i"
+            @click="goToPage(item.to)"
+          >
+            <v-list-item-action>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title v-text="item.title" />
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item @click="logout">
+            <v-list-item-action>
+              <v-icon>mdi-exit-to-app</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Logout</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer>
     <v-app-bar color="primary" clipped-left fixed dark app>
       <v-app-bar-nav-icon
         v-if="$vuetify.breakpoint.smAndDown"
@@ -26,12 +57,11 @@
 
 <script>
 import ApplicationLogo from "../components/ApplicationLogo.vue";
-import NavigationDrawer from '../components/NavigationDrawer.vue';
 export default {
-  components: { ApplicationLogo, NavigationDrawer },
+  components: { ApplicationLogo },
   data() {
     return {
-      drawer: true,
+      drawer: !this.$vuetify.breakpoint.smAndDown,
       items: [
         { icon: "mdi-apps", title: "Home", to: "home" },
         { icon: "mdi-account", title: "Employee", to: "employee.index" },
@@ -45,6 +75,14 @@ export default {
     },
     user() {
       return this.$page.props.auth.user;
+    },
+    indexMenu() {
+      const inertiaUrl = this.$inertia.page.url.split("?")[0];
+      const index = this.items.findIndex((item) => {
+        const windowUrl = this.route(item.to);
+        return windowUrl.includes(inertiaUrl);
+      });
+      return index;
     },
   },
   watch: {
@@ -62,6 +100,14 @@ export default {
           }
         }
       },
+    },
+  },
+  methods: {
+    logout() {
+      this.$inertia.post("/logout");
+    },
+    goToPage(page) {
+      this.$inertia.visit(this.route(page));
     },
   },
 };
