@@ -4,7 +4,7 @@ A laravel inertiajs vuetify starterkit
 
 ## Demo
 
-You can access demo app in : <https://laravel-inertia-vuetify.herokuapp.com/>
+You can access demo app in : <https://laravel-inertia-vuetify.fly.dev//>
 
 ## Features
 
