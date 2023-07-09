@@ -1,9 +1,7 @@
 <?php
 
-use App\Http\Controllers\EmployeeController;
-use App\Http\Controllers\HelloController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PersonController;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -19,10 +17,17 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('welcome');
-})->name('/');
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+});
 
-Route::get('home', [HomeController::class, 'index'])->name('home');
-Route::resource('employee', EmployeeController::class)->only(['index', 'store', 'update', 'destroy']);
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+Route::resource('persons', PersonController::class)->except(['show']);
 
 require __DIR__.'/auth.php';

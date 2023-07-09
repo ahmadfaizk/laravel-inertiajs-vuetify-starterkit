@@ -1,40 +1,31 @@
 {
     "private": true,
+    "type": "module",
     "scripts": {
-        "dev": "npm run development",
-        "development": "mix",
-        "watch": "mix watch",
-        "watch-poll": "mix watch -- --watch-options-poll=1000",
-        "hot": "mix watch --hot",
-        "prod": "npm run production",
-        "production": "mix --production",
-        "postinstall": "npm run prod"
-    },
-    "engines": {
-        "npm": "7.x",
-        "node": "14.x"
+        "dev": "vite",
+        "build": "vite build",
+        "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
+        "format": "prettier .  --write"
     },
     "devDependencies": {
-        "@mdi/font": "^5.9.55",
-        "axios": "^0.21",
-        "bootstrap": "^4.6.0",
-        "jquery": "^3.6",
-        "laravel-mix": "^6.0.6",
-        "lodash": "^4.17.19",
-        "popper.js": "^1.16.1",
-        "postcss": "^8.1.14",
-        "resolve-url-loader": "^3.1.2",
-        "sass": "^1.32.11",
-        "sass-loader": "^11.0.1",
-        "vue": "^2.6.12",
-        "vue-loader": "^15.9.7",
-        "vue-template-compiler": "^2.6.12"
+        "@inertiajs/vue3": "^1.0.0",
+        "@mdi/font": "^7.2.96",
+        "@vitejs/plugin-vue": "^4.0.0",
+        "axios": "^1.1.2",
+        "esbuild": "^0.18.11",
+        "eslint": "^8.44.0",
+        "eslint-config-prettier": "^8.8.0",
+        "eslint-plugin-prettier": "^5.0.0-alpha.1",
+        "eslint-plugin-vue": "^9.15.1",
+        "laravel-vite-plugin": "^0.7.5",
+        "prettier": "3.0.0",
+        "vite": "^4.0.0",
+        "vite-plugin-eslint": "^1.8.1",
+        "vite-plugin-vuetify": "^1.0.2",
+        "vue": "^3.2.41",
+        "vuetify": "^3.3.6"
     },
     "dependencies": {
-        "@inertiajs/inertia": "^0.10.1",
-        "@inertiajs/inertia-vue": "^0.7.2",
-        "@inertiajs/progress": "^0.2.6",
-        "vue-toastification": "^1.7.11",
-        "vuetify": "^2.5.8"
+        "crypto-js": "^4.1.1"
     }
 }
