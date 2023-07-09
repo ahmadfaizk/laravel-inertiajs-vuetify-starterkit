@@ -1,29 +1,23 @@
-require("./bootstrap");
-require("./plugins/vue-toastification");
-import Vue from "vue";
-import {
-  App as InertiaApp,
-  plugin as InertiaPlugin
-} from "@inertiajs/inertia-vue";
-import { Link } from "@inertiajs/inertia-vue";
-import vuetify from "./plugins/vuetify";
-import { InertiaProgress } from "@inertiajs/progress";
+import './bootstrap'
+import '../css/app.css'
 
-Vue.use(InertiaPlugin);
-Vue.component("Link", Link);
-Vue.mixin({ methods: { route: window.route } });
-const app = document.getElementById("app");
+import { createApp, h } from 'vue'
+import { createInertiaApp } from '@inertiajs/vue3'
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
+import vuetify from './Plugins/vuetify'
 
-new Vue({
-  vuetify,
-  render: h =>
-    h(InertiaApp, {
-      props: {
-        title: title => `${title} - My App`,
-        initialPage: JSON.parse(app.dataset.page),
-        resolveComponent: name => require(`./pages/${name}`).default
-      }
-    })
-}).$mount(app);
+const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel'
 
-InertiaProgress.init({ color: "#fff" });
+createInertiaApp({
+  title: (title) => `${title} - ${appName}`,
+  resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
+  setup({ el, App, props, plugin }) {
+    return createApp({ render: () => h(App, props) })
+      .use(plugin)
+      .use(vuetify)
+      .mount(el)
+  },
+  progress: {
+    color: '#4B5563',
+  },
+})

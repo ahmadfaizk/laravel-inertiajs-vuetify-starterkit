@@ -8,14 +8,15 @@ You can access demo app in : <https://laravel-inertia-vuetify.herokuapp.com/>
 
 ## Features
 
-- Laravel 8
+- Laravel 10
 - Inertia.js
-- Vue
+- Vite
+- Vue 3
 - Vuetify + Material Design Icons
-- Laravel Mix
-- Authentication (Login, Register, Forgot Password, Email Verification)
+- Authentication (Login, Register, Forgot Password)
 - Example CRUD with serverside pagination, searching, and sorting
 - SPA (Single Page Application)
+- ESLint + Prettier
 
 ## Installation
 
@@ -26,13 +27,13 @@ git clone https://github.com/ahmadfaizk/laravel-inertiajs-vuetify-starterkit
 cd laravel-inertiajs-vuetify-starterkit
 ```
 
-Install PHP Dependencies
+Install PHP dependencies
 
 ```bash
 composer install
 ```
 
-Install NPM Dependencies
+Install NPM dependencies
 
 ```bash
 npm install
@@ -44,7 +45,7 @@ Build assets
 npm run dev
 ```
 
-Setup Configuration
+Setup configuration
 
 ```bash
 cp .env.example .env
@@ -56,10 +57,15 @@ Generate application key
 php artisan key:generate
 ```
 
-Run Database migrations
+Run database migrations
 
 ```bash
 php artisan migrate
+```
+
+Run application
+```bash
+php artisan serve
 ```
 
 ## Contributing

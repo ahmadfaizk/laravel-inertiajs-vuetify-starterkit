@@ -1,103 +1,90 @@
-<template>
-  <guest-layout>
-    <v-main>
-      <v-container fluid>
-        <v-row align="center" justify="center" style="height: 100vh">
-          <v-col cols="12" sm="12" md="10" lg="4">
-            <v-card>
-              <v-card-title class="d-flex align-center justify-center">
-                <Link :href="route('/')">
-                  <application-logo style="height: 75" />
-                </Link>
-              </v-card-title>
-              <v-card-text>
-                <p class="text-2xl font-weight-semibold text--primary mb-2">
-                  Adventure starts here 🚀
-                </p>
-                <p class="mb-2">Make your app management easy and fun!</p>
-              </v-card-text>
-              <v-card-text>
-                <v-form @submit.prevent="register">
-                  <v-text-field
-                    v-model="form.name"
-                    prepend-inner-icon="mdi-account"
-                    label="Name"
-                    outlined
-                    dense
-                    type="text"
-                    :error-messages="form.errors.name"
-                  />
-                  <v-text-field
-                    v-model="form.email"
-                    prepend-inner-icon="mdi-email"
-                    label="Email"
-                    type="email"
-                    outlined
-                    dense
-                    :error-messages="form.errors.email"
-                  />
-                  <v-text-field
-                    v-model="form.password"
-                    prepend-inner-icon="mdi-lock"
-                    label="Password"
-                    outlined
-                    dense
-                    :error-messages="form.errors.password"
-                    :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                    :type="showPassword ? 'text' : 'password'"
-                    @click:append="showPassword = !showPassword"
-                  />
-                  <v-text-field
-                    v-model="form.password_confirmation"
-                    prepend-inner-icon="mdi-lock"
-                    label="Password Confirmation"
-                    :error-messages="form.errors.password_confirmation"
-                    outlined
-                    dense
-                    :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                    :type="showPassword ? 'text' : 'password'"
-                    @click:append="showPassword = !showPassword"
-                  />
-                  <v-btn :loading="form.processing" type="submit" block color="primary" class="mt-3"
-                    >Register</v-btn
-                  >
-                </v-form>
-              </v-card-text>
-              <v-card-text
-                class="d-flex align-center justify-center flex-wrap mt-2"
-              >
-                <span class="me-2"> Already have an account? </span>
-                <Link :href="route('login')"> Sign in instead </Link>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-main>
-  </guest-layout>
-</template>
+<script setup>
+import GuestLayout from '@/Layouts/GuestLayout.vue'
+import { Head, Link, useForm } from '@inertiajs/vue3'
+import { ref } from 'vue'
 
-<script>
-import ApplicationLogo from "../../components/ApplicationLogo.vue";
-import GuestLayout from '../../layouts/GuestLayout.vue';
-export default {
-  components: { ApplicationLogo, GuestLayout },
-  data() {
-    return {
-      showPassword: false,
-      isLoading: false,
-      form: this.$inertia.form({
-        name: null,
-        email: null,
-        password: null,
-        password_confirmation: null,
-      }),
-    };
+defineProps({
+  canResetPassword: {
+    type: Boolean,
   },
-  methods: {
-    register() {
-      this.form.post("/register");
-    },
+  status: {
+    type: String,
   },
-};
+})
+
+const form = useForm({
+  name: '',
+  email: '',
+  password: '',
+  password_confirmation: '',
+})
+const showPassword = ref(false)
+
+const submit = () => {
+  form.post('/register', {
+    onFinish: () => form.reset('password', 'password_confirmation'),
+  })
+}
 </script>
+<script>
+export default {
+  name: 'RegisterPage',
+}
+</script>
+
+<template>
+  <GuestLayout>
+    <Head title="Log in" />
+    <v-form @submit.prevent="submit">
+      <div class="text-subtitle-1 text-medium-emphasis">Name</div>
+      <v-text-field
+        v-model="form.name"
+        type="text"
+        variant="outlined"
+        density="compact"
+        placeholder="Full name"
+        prepend-inner-icon="mdi-account"
+        :error-messages="form.errors.name"
+      />
+      <div class="text-subtitle-1 text-medium-emphasis">Email</div>
+      <v-text-field
+        v-model="form.email"
+        type="email"
+        variant="outlined"
+        density="compact"
+        placeholder="Email address"
+        prepend-inner-icon="mdi-email-outline"
+        :error-messages="form.errors.email"
+      />
+      <div class="text-subtitle-1 text-medium-emphasis">Password</div>
+      <v-text-field
+        v-model="form.password"
+        density="compact"
+        variant="outlined"
+        placeholder="Enter your password"
+        prepend-inner-icon="mdi-lock-outline"
+        :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+        :type="showPassword ? 'text' : 'password'"
+        :error-messages="form.errors.password"
+        @click:append-inner="showPassword = !showPassword"
+      />
+      <div class="text-subtitle-1 text-medium-emphasis">Password Confirmation</div>
+      <v-text-field
+        v-model="form.password_confirmation"
+        density="compact"
+        variant="outlined"
+        placeholder="Enter your password"
+        prepend-inner-icon="mdi-lock-outline"
+        :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+        :type="showPassword ? 'text' : 'password'"
+        :error-messages="form.errors.password_confirmation"
+        @click:append-inner="showPassword = !showPassword"
+      />
+
+      <v-btn :loading="form.processing" type="submit" block color="primary" class="mb-5 mt-3">Register</v-btn>
+    </v-form>
+    <v-card-text class="text-center">
+      <Link class="text-blue text-decoration-none" href="/login"> Already registered? </Link>
+    </v-card-text>
+  </GuestLayout>
+</template>
