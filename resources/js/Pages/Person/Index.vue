@@ -11,8 +11,9 @@ import { Head, Link } from '@inertiajs/vue3'
       <div class="d-flex">
         <v-text-field v-model="search" label="Search" variant="underlined" prepend-inner-icon="mdi-magnify" />
         <v-spacer />
+        <v-spacer />
         <Link href="/persons/create">
-          <v-btn color="primary">Create Person</v-btn>
+          <v-btn color="primary">Create</v-btn>
         </Link>
       </div>
       <v-data-table-server
@@ -24,6 +25,7 @@ import { Head, Link } from '@inertiajs/vue3'
         :loading="isLoadingTable"
         @update:options="loadItems"
       >
+        <template #[`item.gender`]="{ item }">{{ item.columns.gender == 'male' ? 'Male' : 'Female' }}</template>
         <template #[`item.action`]="{ item }">
           <Link :href="`/persons/${item.value}/edit`">
             <v-icon color="warning" icon="mdi-pencil" size="small" />

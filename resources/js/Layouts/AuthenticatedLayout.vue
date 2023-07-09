@@ -4,7 +4,7 @@ import { Link } from '@inertiajs/vue3'
 
 <template>
   <v-app class="bg-grey-lighten-4">
-    <v-navigation-drawer v-model="drawer" :rail="rail" permanent expand-on-hover>
+    <v-navigation-drawer v-model="drawer" :rail="rail" permanent>
       <v-list>
         <v-list-item
           :prepend-avatar="gravatarUrl"
@@ -31,7 +31,8 @@ import { Link } from '@inertiajs/vue3'
       </v-list>
     </v-navigation-drawer>
     <v-app-bar color="primary">
-      <v-app-bar-nav-icon @click.stop="rail = !rail" />
+      <v-app-bar-nav-icon v-if="$vuetify.display.mobile" @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon v-else @click.stop="rail = !rail" />
       <v-toolbar-title text="Laravel" />
     </v-app-bar>
     <v-main>
@@ -48,7 +49,7 @@ import md5 from 'crypto-js/md5'
 export default {
   data() {
     return {
-      drawer: true,
+      drawer: false,
       rail: false,
       items: [
         {
@@ -68,6 +69,9 @@ export default {
     gravatarUrl() {
       return `https://www.gravatar.com/avatar/${md5(this.$page.props.auth.user.email)}?s=200`
     },
+  },
+  mounted() {
+    this.drawer = !this.$vuetify.display.mobile
   },
 }
 </script>

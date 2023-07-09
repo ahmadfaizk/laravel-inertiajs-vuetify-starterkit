@@ -7,7 +7,11 @@ import { Head } from '@inertiajs/vue3'
   <Head title="Dashboard" />
   <AuthenticatedLayout>
     <div class="text-h5 text-medium-emphasis">Dashboard</div>
-    <div class="text-subtitle-1 text-medium-emphasis">You're logged in! Feel free to explore the rest of the site.</div>
+    <v-card class="mt-5">
+      <v-card-text>
+        <div class="text-h6 text-medium-emphasis">Welcome back, {{ $page.props.auth.user.name }}!</div>
+      </v-card-text>
+    </v-card>
   </AuthenticatedLayout>
 </template>
 

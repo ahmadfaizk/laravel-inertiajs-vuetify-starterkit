@@ -15,38 +15,40 @@ const props = defineProps({
   <v-app class="bg-grey-lighten-4">
     <v-main>
       <v-container>
-        <v-layout class="d-flex flex-column align-center justify-center" style="height: 100vh">
-          <v-card class="pa-8 rounded-lg elevation-8" max-width="600">
-            <v-card-title>
-              <div class="d-flex justify-center">
-                <ApplicationLogo class="mr-1" style="height: 75" />
-                <VuetifyLogo class="ml-1" style="height: 75" />
-              </div>
-              <h2 class="text-h4 mt-8">Welcome to Laravel + Vuetify</h2>
-            </v-card-title>
-            <v-card-text>
-              <p class="text-body-2">
-                Laravel has wonderful documentation covering every aspect of the framework. Whether you are a newcomer
-                or have prior experience with Laravel, we recommend reading our documentation from beginning to end.
-              </p>
-            </v-card-text>
-            <v-card-actions>
-              <div v-if="props.auth.user != null">
-                <Link href="/dashboard">
-                  <v-btn color="primary">Dashboard</v-btn>
-                </Link>
-              </div>
-              <div v-else>
-                <Link v-if="props.canLogin" href="/login" class="mr-2">
-                  <v-btn color="primary">Login</v-btn>
-                </Link>
-                <Link v-if="props.canRegister" href="/register">
-                  <v-btn color="secondary">Sign Up</v-btn>
-                </Link>
-              </div>
-            </v-card-actions>
-          </v-card>
-        </v-layout>
+        <v-row align="center" justify="center" style="height: 100vh">
+          <v-col cols="12" sm="12" md="10" lg="4">
+            <v-card class="pa-3 rounded-lg elevation-8">
+              <v-card-title>
+                <div class="d-flex justify-center mb-4">
+                  <ApplicationLogo class="mr-1" style="height: 75" />
+                  <VuetifyLogo class="ml-1" style="height: 75" />
+                </div>
+                <span class="text-h5">Welcome to Laravel + Vuetify</span>
+              </v-card-title>
+              <v-card-text>
+                <p class="text-body-2">
+                  Laravel has wonderful documentation covering every aspect of the framework. Whether you are a newcomer
+                  or have prior experience with Laravel, we recommend reading our documentation from beginning to end.
+                </p>
+              </v-card-text>
+              <v-card-actions>
+                <div v-if="props.auth.user != null">
+                  <Link href="/dashboard">
+                    <v-btn color="primary">Dashboard</v-btn>
+                  </Link>
+                </div>
+                <div v-else>
+                  <Link v-if="props.canLogin" href="/login" class="mr-2">
+                    <v-btn color="primary">Login</v-btn>
+                  </Link>
+                  <Link v-if="props.canRegister" href="/register">
+                    <v-btn color="secondary">Sign Up</v-btn>
+                  </Link>
+                </div>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
       </v-container>
     </v-main>
   </v-app>
