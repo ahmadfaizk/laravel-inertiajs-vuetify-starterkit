@@ -22,7 +22,7 @@ import { Head, Link } from '@inertiajs/vue3'
           single-line
         />
         <v-spacer />
-        <Link href="/persons/create">
+        <Link href="/persons/create" as="div">
           <v-btn color="primary">Create</v-btn>
         </Link>
       </div>

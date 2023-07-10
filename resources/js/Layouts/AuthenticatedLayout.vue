@@ -15,17 +15,17 @@ import { Link } from '@inertiajs/vue3'
       <v-divider />
       <v-list nav>
         <!-- List Menu -->
-        <Link v-for="(item, key) in items" :key="key" :href="item.to" class="text-decoration-none text-black">
+        <Link v-for="(item, key) in items" :key="key" :href="item.to" as="div">
           <v-list-item
             :prepend-icon="item.icon"
             :title="item.title"
-            link
             :exact="item.exact"
+            link
             :class="{ 'v-list-item--active': $page.url.startsWith(item.to) }"
           />
         </Link>
         <!-- Log Out -->
-        <Link href="/logout" method="post" as="button" class="text-decoration-none text-black">
+        <Link href="/logout" method="post" as="div">
           <v-list-item prepend-icon="mdi-exit-to-app" title="Logout" link />
         </Link>
       </v-list>

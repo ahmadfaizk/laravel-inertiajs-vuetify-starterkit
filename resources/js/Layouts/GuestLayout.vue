@@ -10,7 +10,7 @@ import { Link } from '@inertiajs/vue3'
         <v-row align="center" justify="center" style="height: 100vh">
           <v-col cols="12" sm="12" md="10" lg="3">
             <div class="d-flex justify-center">
-              <Link href="/">
+              <Link href="/" as="div">
                 <ApplicationLogo style="height: 75" />
               </Link>
             </div>

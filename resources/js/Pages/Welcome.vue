@@ -33,17 +33,19 @@ const props = defineProps({
               </v-card-text>
               <v-card-actions>
                 <div v-if="props.auth.user != null">
-                  <Link href="/dashboard">
+                  <Link href="/dashboard" as="div">
                     <v-btn color="primary">Dashboard</v-btn>
                   </Link>
                 </div>
                 <div v-else>
-                  <Link v-if="props.canLogin" href="/login" class="mr-2">
-                    <v-btn color="primary">Login</v-btn>
-                  </Link>
-                  <Link v-if="props.canRegister" href="/register">
-                    <v-btn color="secondary">Sign Up</v-btn>
-                  </Link>
+                  <div class="d-flex">
+                    <Link v-if="props.canLogin" href="/login" class="mr-2" as="div">
+                      <v-btn color="primary">Login</v-btn>
+                    </Link>
+                    <Link v-if="props.canRegister" href="/register" as="div">
+                      <v-btn color="secondary">Sign Up</v-btn>
+                    </Link>
+                  </div>
                 </div>
               </v-card-actions>
             </v-card>
