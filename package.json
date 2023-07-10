@@ -26,6 +26,7 @@
         "vuetify": "^3.3.6"
     },
     "dependencies": {
-        "crypto-js": "^4.1.1"
+        "crypto-js": "^4.1.1",
+        "vue-toastification": "^2.0.0-rc.5"
     }
 }

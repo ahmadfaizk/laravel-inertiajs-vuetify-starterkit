@@ -45,7 +45,7 @@ class PersonController extends Controller
 
         Person::create($request->all());
 
-        return redirect()->route('persons.index')->with('success', 'Person created.');
+        return redirect()->back()->with('success', 'Person created');
     }
 
     public function edit(Person $person)
@@ -57,22 +57,22 @@ class PersonController extends Controller
 
     public function update(Person $person, Request $request)
     {
-        $this->validate($request, [
+        $data = $this->validate($request, [
             'name' => ['required'],
             'gender' => ['required'],
             'email' => ['nullable', 'email'],
             'phone' => ['nullable'],
             'address' => ['nullable'],
         ]);
-        $person->update($request->all());
+        $person->update($data);
 
-        return redirect()->route('persons.index')->with('success', 'Person updated.');
+        return redirect()->back()->with('success', 'Person updated');
     }
 
     public function destroy(Person $person)
     {
         $person->delete();
 
-        return redirect()->route('persons.index')->with('success', 'Person deleted.');
+        return redirect()->back()->with('success', 'Person deleted');
     }
 }

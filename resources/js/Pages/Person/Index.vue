@@ -6,11 +6,21 @@ import { Head, Link } from '@inertiajs/vue3'
 <template>
   <Head title="Person" />
   <AuthenticatedLayout>
-    <div class="text-h4 text-medium-emphasis mb-5">Person</div>
+    <div class="mb-5">
+      <h5 class="text-h5 font-weight-bold">Person</h5>
+      <v-breadcrumbs :items="breadcrumbs" class="pa-0 mt-1" />
+    </div>
     <v-card class="pa-4">
-      <div class="d-flex">
-        <v-text-field v-model="search" label="Search" variant="underlined" prepend-inner-icon="mdi-magnify" />
-        <v-spacer />
+      <div class="d-flex flex-wrap align-center">
+        <v-text-field
+          v-model="search"
+          label="Search"
+          variant="underlined"
+          prepend-inner-icon="mdi-magnify"
+          hide-details
+          clearable
+          single-line
+        />
         <v-spacer />
         <Link href="/persons/create">
           <v-btn color="primary">Create</v-btn>
@@ -67,9 +77,19 @@ export default {
         { title: 'Created At', key: 'created_at' },
         { title: 'Action', key: 'action', sortable: false },
       ],
+      breadcrumbs: [
+        {
+          title: 'Dashboard',
+          disabled: false,
+          href: '/dashboard',
+        },
+        {
+          title: 'Person',
+          disabled: true,
+        },
+      ],
       isLoadingTable: false,
       search: null,
-      options: {},
       deleteDialog: false,
       isLoading: false,
       deleteId: null,
@@ -78,22 +98,19 @@ export default {
   methods: {
     loadItems({ page, itemsPerPage, sortBy, search }) {
       this.isLoadingTable = true
-      this.$inertia.get(
-        '/persons',
-        {
-          page: page,
-          limit: itemsPerPage,
-          sort: sortBy[0],
-          search: search,
+      const params = {
+        page: page,
+        limit: itemsPerPage,
+        sort: sortBy[0],
+        search: search,
+      }
+      this.$inertia.get('/persons', params, {
+        preserveState: true,
+        preserveScroll: true,
+        onSuccess: () => {
+          this.isLoadingTable = false
         },
-        {
-          preserveState: true,
-          preserveScroll: true,
-          onSuccess: () => {
-            this.isLoadingTable = false
-          },
-        },
-      )
+      })
     },
     deleteItem(item) {
       this.deleteId = item.value

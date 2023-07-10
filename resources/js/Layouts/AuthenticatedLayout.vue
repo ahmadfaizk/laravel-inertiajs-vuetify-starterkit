@@ -7,13 +7,14 @@ import { Link } from '@inertiajs/vue3'
     <v-navigation-drawer v-model="drawer" :rail="rail" permanent>
       <v-list>
         <v-list-item
-          :prepend-avatar="gravatarUrl"
+          :prepend-avatar="avatar"
           :title="$page.props.auth.user.name"
           :subtitle="$page.props.auth.user.email"
         />
       </v-list>
       <v-divider />
       <v-list nav>
+        <!-- List Menu -->
         <Link v-for="(item, key) in items" :key="key" :href="item.to" class="text-decoration-none text-black">
           <v-list-item
             :prepend-icon="item.icon"
@@ -23,11 +24,10 @@ import { Link } from '@inertiajs/vue3'
             :class="{ 'v-list-item--active': $page.url.startsWith(item.to) }"
           />
         </Link>
-        <v-list-item prepend-icon="mdi-exit-to-app">
-          <v-list-item-title>
-            <Link href="/logout" method="post" as="button" :preserve-scroll="true"> Logout </Link>
-          </v-list-item-title>
-        </v-list-item>
+        <!-- Log Out -->
+        <Link href="/logout" method="post" as="button" class="text-decoration-none text-black">
+          <v-list-item prepend-icon="mdi-exit-to-app" title="Logout" link />
+        </Link>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar color="primary">
@@ -45,6 +45,7 @@ import { Link } from '@inertiajs/vue3'
 
 <script>
 import md5 from 'crypto-js/md5'
+import { useToast } from 'vue-toastification'
 
 export default {
   data() {
@@ -66,8 +67,21 @@ export default {
     }
   },
   computed: {
-    gravatarUrl() {
+    avatar() {
       return `https://www.gravatar.com/avatar/${md5(this.$page.props.auth.user.email)}?s=200`
+    },
+  },
+  watch: {
+    $page: {
+      handler() {
+        const toast = useToast()
+        const flash = this.$page.props.flash
+        if (flash.success) {
+          toast.success(flash.success)
+        } else if (flash.error) {
+          toast.error(flash.error)
+        }
+      },
     },
   },
   mounted() {
