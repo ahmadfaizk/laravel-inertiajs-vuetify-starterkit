@@ -38,7 +38,7 @@ import { Head, Link } from '@inertiajs/vue3'
       >
         <template #[`item.gender`]="{ item }">{{ item.columns.gender == 'male' ? 'Male' : 'Female' }}</template>
         <template #[`item.action`]="{ item }">
-          <Link :href="`/people/${item.value}/edit`">
+          <Link :href="`/people/${item.value}/edit`" as="button">
             <v-icon color="warning" icon="mdi-pencil" size="small" />
           </Link>
           <v-icon class="ml-2" color="error" icon="mdi-delete" size="small" @click="deleteItem(item)" />

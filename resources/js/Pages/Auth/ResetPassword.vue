@@ -68,7 +68,7 @@ const showPassword = ref(false)
         :error-messages="form.errors.password_confirmation"
         @click:append-inner="showPassword = !showPassword"
       />
-      <v-btn :loading="form.processing" type="submit" block color="primary"> Reset Password </v-btn>
+      <v-btn :loading="form.processing" class="mt-4" type="submit" block color="primary"> Reset Password </v-btn>
     </v-form>
   </GuestLayout>
 </template>

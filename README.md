@@ -10,13 +10,13 @@ You can access demo app in : <https://laravel-inertia-vuetify.fly.dev>
 
 - Laravel 10
 - Inertia.js
-- Vite
 - Vue 3
+- Vite
 - Vuetify + Material Design Icons
+- ESLint + Prettier
 - Authentication (Login, Register, Forgot Password)
 - Example CRUD with serverside pagination, searching, and sorting
 - SPA (Single Page Application)
-- ESLint + Prettier
 
 ## Installation
 
@@ -73,7 +73,3 @@ php artisan serve
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)

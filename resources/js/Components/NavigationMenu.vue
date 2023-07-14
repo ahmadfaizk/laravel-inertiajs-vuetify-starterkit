@@ -17,7 +17,7 @@ import navigation from '@/Configs/navigation'
     </Link>
     <!-- Log Out -->
     <Link href="/logout" method="post" as="div">
-      <v-list-item prepend-icon="mdi-exit-to-app" title="Logout" link />
+      <v-list-item prepend-icon="mdi-exit-to-app" title="Log Out" link />
     </Link>
   </v-list>
 </template>

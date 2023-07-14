@@ -37,7 +37,9 @@ const submit = () => {
         prepend-inner-icon="mdi-email-outline"
         :error-messages="form.errors.email"
       />
-      <v-btn :loading="form.processing" type="submit" block color="primary"> Email Password Reset Link </v-btn>
+      <v-btn :loading="form.processing" class="mt-4" type="submit" block color="primary">
+        Email Password Reset Link
+      </v-btn>
     </v-form>
   </GuestLayout>
 </template>
