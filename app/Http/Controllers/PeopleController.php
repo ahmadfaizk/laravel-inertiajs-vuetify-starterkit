@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Person;
+use App\Models\People;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class PersonController extends Controller
+class PeopleController extends Controller
 {
     public function __construct()
     {
@@ -15,7 +15,7 @@ class PersonController extends Controller
 
     public function index(Request $request)
     {
-        $query = Person::query()->when($request->get('search'), function ($query, $search) {
+        $query = People::query()->when($request->get('search'), function ($query, $search) {
             return $query->where('name', 'ILIKE', "%$search%");
         })->when($request->get('sort'), function ($query, $sortBy) {
             return $query->orderBy($sortBy['key'], $sortBy['order']);
@@ -23,14 +23,14 @@ class PersonController extends Controller
 
         $data = $query->paginate($request->get('limit', 10));
 
-        return Inertia::render('Person/Index', [
+        return Inertia::render('People/Index', [
             'data' => $data
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Person/Create');
+        return Inertia::render('People/Create');
     }
 
     public function store(Request $request)
@@ -43,19 +43,20 @@ class PersonController extends Controller
             'address' => ['nullable'],
         ]);
 
-        Person::create($request->all());
+        $people = People::create($request->all());
+        $message = sprintf('Successfully created %s', $people->name);
 
-        return redirect()->back()->with('success', 'Person created');
+        return redirect()->back()->with('success', $message);
     }
 
-    public function edit(Person $person)
+    public function edit(People $person)
     {
-        return Inertia::render('Person/Edit', [
+        return Inertia::render('People/Edit', [
             'person' => $person
         ]);
     }
 
-    public function update(Person $person, Request $request)
+    public function update(People $person, Request $request)
     {
         $data = $this->validate($request, [
             'name' => ['required'],
@@ -65,14 +66,16 @@ class PersonController extends Controller
             'address' => ['nullable'],
         ]);
         $person->update($data);
+        $message = sprintf('Successfully updated %s', $person->name);
 
-        return redirect()->back()->with('success', 'Person updated');
+        return redirect()->back()->with('success', $message);
     }
 
-    public function destroy(Person $person)
+    public function destroy(People $person)
     {
         $person->delete();
+        $message = sprintf('Successfully deleted %s', $person->name);
 
-        return redirect()->back()->with('success', 'Person deleted');
+        return redirect()->back()->with('success', $message);
     }
 }

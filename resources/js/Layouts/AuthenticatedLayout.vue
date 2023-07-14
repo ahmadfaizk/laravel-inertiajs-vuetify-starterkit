@@ -1,5 +1,5 @@
 <script setup>
-import { Link } from '@inertiajs/vue3'
+import NavigationMenu from '@/Components/NavigationMenu.vue'
 </script>
 
 <template>
@@ -13,22 +13,7 @@ import { Link } from '@inertiajs/vue3'
         />
       </v-list>
       <v-divider />
-      <v-list nav>
-        <!-- List Menu -->
-        <Link v-for="(item, key) in items" :key="key" :href="item.to" as="div">
-          <v-list-item
-            :prepend-icon="item.icon"
-            :title="item.title"
-            :exact="item.exact"
-            link
-            :class="{ 'v-list-item--active': $page.url.startsWith(item.to) }"
-          />
-        </Link>
-        <!-- Log Out -->
-        <Link href="/logout" method="post" as="div">
-          <v-list-item prepend-icon="mdi-exit-to-app" title="Logout" link />
-        </Link>
-      </v-list>
+      <NavigationMenu />
     </v-navigation-drawer>
     <v-app-bar color="primary">
       <v-app-bar-nav-icon v-if="$vuetify.display.mobile" @click.stop="drawer = !drawer" />
@@ -52,18 +37,6 @@ export default {
     return {
       drawer: false,
       rail: false,
-      items: [
-        {
-          title: 'Dashboard',
-          icon: 'mdi-view-dashboard',
-          to: '/dashboard',
-        },
-        {
-          title: 'Persons',
-          icon: 'mdi-account-group',
-          to: '/persons',
-        },
-      ],
     }
   },
   computed: {

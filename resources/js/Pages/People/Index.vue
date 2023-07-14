@@ -1,14 +1,15 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
+import Breadcrumbs from '@/Components/Breadcrumbs.vue'
 import { Head, Link } from '@inertiajs/vue3'
 </script>
 
 <template>
-  <Head title="Person" />
+  <Head title="People" />
   <AuthenticatedLayout>
     <div class="mb-5">
-      <h5 class="text-h5 font-weight-bold">Person</h5>
-      <v-breadcrumbs :items="breadcrumbs" class="pa-0 mt-1" />
+      <h5 class="text-h5 font-weight-bold">People</h5>
+      <Breadcrumbs :items="breadcrumbs" class="pa-0 mt-1" />
     </div>
     <v-card class="pa-4">
       <div class="d-flex flex-wrap align-center">
@@ -22,7 +23,7 @@ import { Head, Link } from '@inertiajs/vue3'
           single-line
         />
         <v-spacer />
-        <Link href="/persons/create" as="div">
+        <Link href="/people/create" as="div">
           <v-btn color="primary">Create</v-btn>
         </Link>
       </div>
@@ -37,7 +38,7 @@ import { Head, Link } from '@inertiajs/vue3'
       >
         <template #[`item.gender`]="{ item }">{{ item.columns.gender == 'male' ? 'Male' : 'Female' }}</template>
         <template #[`item.action`]="{ item }">
-          <Link :href="`/persons/${item.value}/edit`">
+          <Link :href="`/people/${item.value}/edit`">
             <v-icon color="warning" icon="mdi-pencil" size="small" />
           </Link>
           <v-icon class="ml-2" color="error" icon="mdi-delete" size="small" @click="deleteItem(item)" />
@@ -61,7 +62,7 @@ import { Head, Link } from '@inertiajs/vue3'
 
 <script>
 export default {
-  name: 'PersonIndex',
+  name: 'PeopleIndex',
   props: {
     data: {
       type: Object,
@@ -84,7 +85,7 @@ export default {
           href: '/dashboard',
         },
         {
-          title: 'Person',
+          title: 'People',
           disabled: true,
         },
       ],
@@ -98,13 +99,15 @@ export default {
   methods: {
     loadItems({ page, itemsPerPage, sortBy, search }) {
       this.isLoadingTable = true
-      const params = {
+      var params = {
         page: page,
         limit: itemsPerPage,
         sort: sortBy[0],
-        search: search,
       }
-      this.$inertia.get('/persons', params, {
+      if (search) {
+        params.search = search
+      }
+      this.$inertia.get('/people', params, {
         preserveState: true,
         preserveScroll: true,
         onSuccess: () => {
@@ -118,7 +121,7 @@ export default {
     },
     submitDelete() {
       this.isLoading = true
-      this.$inertia.delete(`/persons/${this.deleteId}`, {
+      this.$inertia.delete(`/people/${this.deleteId}`, {
         preserveState: true,
         preserveScroll: true,
         onSuccess: () => {

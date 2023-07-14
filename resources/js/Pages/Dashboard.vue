@@ -1,5 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
+import Breadcrumbs from '@/Components/Breadcrumbs.vue'
 import { Head } from '@inertiajs/vue3'
 </script>
 
@@ -8,7 +9,7 @@ import { Head } from '@inertiajs/vue3'
   <AuthenticatedLayout>
     <div class="mb-5">
       <h5 class="text-h5 font-weight-bold">Dashboard</h5>
-      <v-breadcrumbs :items="breadcrumbs" class="pa-0 mt-1" />
+      <Breadcrumbs :items="breadcrumbs" class="pa-0 mt-1" />
     </div>
     <v-card>
       <v-card-text>

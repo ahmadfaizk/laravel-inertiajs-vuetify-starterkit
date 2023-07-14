@@ -1,30 +1,38 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
-import { Head, useForm, router } from '@inertiajs/vue3'
+import Breadcrumbs from '@/Components/Breadcrumbs.vue'
+import { Head, Link, useForm, router } from '@inertiajs/vue3'
+
+const props = defineProps({
+  person: {
+    type: Object,
+    required: true,
+  },
+})
 
 const form = useForm({
-  name: null,
-  email: null,
-  phone: null,
-  gender: null,
-  address: null,
+  name: props.person.name,
+  email: props.person.email,
+  phone: props.person.phone,
+  gender: props.person.gender,
+  address: props.person.address,
 })
 
 const submit = () => {
-  form.post('/persons', {
+  form.patch('/people/' + props.person.id, {
     onSuccess: () => {
-      router.visit('/persons')
+      router.visit('/people')
     },
   })
 }
 </script>
 
 <template>
-  <Head title="Create Person" />
+  <Head title="Edit People" />
   <AuthenticatedLayout>
     <div class="mb-5">
-      <h5 class="text-h5 font-weight-bold">Create Person</h5>
-      <v-breadcrumbs :items="breadcrumbs" class="pa-0 mt-1" />
+      <h5 class="text-h5 font-weight-bold">Edit People</h5>
+      <Breadcrumbs :items="breadcrumbs" class="pa-0 mt-1" />
     </div>
     <v-card>
       <v-form @submit.prevent="submit">
@@ -74,7 +82,10 @@ const submit = () => {
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn type="submit" color="primary">Create</v-btn>
+          <Link href="/people" as="div">
+            <v-btn text>Cancel</v-btn>
+          </Link>
+          <v-btn type="submit" color="primary">Save</v-btn>
         </v-card-actions>
       </v-form>
     </v-card>
@@ -83,7 +94,7 @@ const submit = () => {
 
 <script>
 export default {
-  name: 'PersonCreate',
+  name: 'PeopleEdit',
   data() {
     return {
       genders: [
@@ -97,12 +108,12 @@ export default {
           href: '/dashboard',
         },
         {
-          title: 'Person',
+          title: 'People',
           disabled: false,
-          href: '/persons',
+          href: '/people',
         },
         {
-          title: 'Create',
+          title: 'Edit',
           disabled: true,
         },
       ],

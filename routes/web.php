@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\PersonController;
+use App\Http\Controllers\PeopleController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -27,6 +27,6 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-Route::resource('persons', PersonController::class)->except(['show']);
+Route::resource('/people', PeopleController::class)->except(['show']);
 
 require __DIR__.'/auth.php';
