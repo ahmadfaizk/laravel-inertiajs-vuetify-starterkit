@@ -16,7 +16,8 @@ class PeopleController extends Controller
     public function index(Request $request)
     {
         $query = People::query()->when($request->get('search'), function ($query, $search) {
-            return $query->where('name', 'ILIKE', "%$search%");
+            $search = strtolower(trim($search));
+            return $query->whereRaw('LOWER(name) LIKE ?', ["%$search%"]);
         })->when($request->get('sort'), function ($query, $sortBy) {
             return $query->orderBy($sortBy['key'], $sortBy['order']);
         });

@@ -36,7 +36,7 @@ import { Head, Link } from '@inertiajs/vue3'
         :loading="isLoadingTable"
         @update:options="loadItems"
       >
-        <template #[`item.gender`]="{ item }">{{ item.columns.gender == 'male' ? 'Male' : 'Female' }}</template>
+        <template #[`item.gender`]="{ item }">{{ item.gender == 'male' ? 'Male' : 'Female' }}</template>
         <template #[`item.action`]="{ item }">
           <Link :href="`/people/${item.value}/edit`" as="button">
             <v-icon color="warning" icon="mdi-pencil" size="small" />
