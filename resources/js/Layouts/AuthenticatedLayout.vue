@@ -29,8 +29,7 @@ import NavigationMenu from '@/Components/NavigationMenu.vue'
 </template>
 
 <script>
-import md5 from 'crypto-js/md5'
-import { useToast } from 'vue-toastification'
+import gravatar from '../Utils/gravatar'
 
 export default {
   data() {
@@ -41,18 +40,30 @@ export default {
   },
   computed: {
     avatar() {
-      return `https://www.gravatar.com/avatar/${md5(this.$page.props.auth.user.email)}?s=200`
+      return gravatar(this.$page.props.auth.user.email)
     },
   },
   watch: {
     $page: {
       handler() {
-        const toast = useToast()
         const flash = this.$page.props.flash
-        if (flash.success) {
-          toast.success(flash.success)
-        } else if (flash.error) {
-          toast.error(flash.error)
+        if (flash === null) return
+
+        switch (flash.type) {
+          case 'success':
+            this.$toast.success(flash.message)
+            break
+          case 'error':
+            this.$toast.error(flash.message)
+            break
+          case 'info':
+            this.$toast.info(flash.message)
+            break
+          case 'warning':
+            this.$toast.warning(flash.message)
+            break
+          default:
+            break
         }
       },
     },
