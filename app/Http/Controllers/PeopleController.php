@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\People;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class PeopleController extends Controller
 {
@@ -15,23 +14,25 @@ class PeopleController extends Controller
 
     public function index(Request $request)
     {
-        $query = People::query()->when($request->get('search'), function ($query, $search) {
-            $search = strtolower(trim($search));
-            return $query->whereRaw('LOWER(name) LIKE ?', ["%$search%"]);
-        })->when($request->get('sort'), function ($query, $sortBy) {
-            return $query->orderBy($sortBy['key'], $sortBy['order']);
-        });
+        if ($request->wantsJson()) {
+            $query = People::query()->when($request->get('search'), function ($query, $search) {
+                $search = strtolower(trim($search));
+                return $query->whereRaw('LOWER(name) LIKE ?', ["%$search%"]);
+            })->when($request->get('sort'), function ($query, $sortBy) {
+                return $query->orderBy($sortBy['key'], $sortBy['order']);
+            });
 
-        $data = $query->paginate($request->get('limit', 10));
+            $data = $query->paginate($request->get('limit', 10));
 
-        return Inertia::render('People/Index', [
-            'data' => $data
-        ]);
+            return response()->json($data);
+        }
+
+        return inertia('People/Index');
     }
 
     public function create()
     {
-        return Inertia::render('People/Create');
+        return inertia('People/Create');
     }
 
     public function store(Request $request)
@@ -52,7 +53,7 @@ class PeopleController extends Controller
 
     public function edit(People $person)
     {
-        return Inertia::render('People/Edit', [
+        return inertia('People/Edit', [
             'person' => $person
         ]);
     }
