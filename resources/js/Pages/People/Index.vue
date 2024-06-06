@@ -28,8 +28,9 @@ import { Head, Link } from '@inertiajs/vue3'
         </Link>
       </div>
       <v-data-table-server
-        :items="data.data"
-        :items-length="data.total"
+        v-model:options="options"
+        :items="items"
+        :items-length="totalItems"
         :headers="headers"
         :search="search"
         class="elevation-0"
@@ -63,11 +64,6 @@ import { Head, Link } from '@inertiajs/vue3'
 <script>
 export default {
   name: 'PeopleIndex',
-  props: {
-    data: {
-      type: Object,
-    },
-  },
   data() {
     return {
       headers: [
@@ -78,6 +74,8 @@ export default {
         { title: 'Created At', key: 'created_at' },
         { title: 'Action', key: 'action', sortable: false },
       ],
+      items: [],
+      totalItems: 0,
       breadcrumbs: [
         {
           title: 'Dashboard',
@@ -90,6 +88,7 @@ export default {
         },
       ],
       isLoadingTable: false,
+      options: {},
       search: null,
       deleteDialog: false,
       isLoading: false,
@@ -97,8 +96,9 @@ export default {
     }
   },
   methods: {
-    loadItems({ page, itemsPerPage, sortBy, search }) {
+    loadItems() {
       this.isLoadingTable = true
+      const { page, itemsPerPage, sortBy, search } = this.options
       var params = {
         page: page,
         limit: itemsPerPage,
@@ -107,13 +107,17 @@ export default {
       if (search) {
         params.search = search
       }
-      this.$inertia.get('/people', params, {
-        preserveState: true,
-        preserveScroll: true,
-        onSuccess: () => {
+      this.$axios
+        .get('/people', { params })
+        .then((response) => {
+          this.items = response.data.data
+          this.totalItems = response.data.total
           this.isLoadingTable = false
-        },
-      })
+        })
+        .catch(() => {
+          this.$toast.error('Failed to load data')
+          this.isLoadingTable = false
+        })
     },
     deleteItem(item) {
       this.deleteId = item.id
@@ -127,6 +131,7 @@ export default {
         onSuccess: () => {
           this.isLoading = false
           this.deleteDialog = false
+          this.loadItems()
         },
       })
     },
